@@ -30,15 +30,15 @@ export default function Home() {
 
       if (!response.ok) {
         const data = await response.json();
-        throw new Error(data.error || "Unable to generate QR code.");
+        throw new Error("Unable to generate QR code.");
       }
 
       const blob = await response.blob();
       const qrCodeUrl = URL.createObjectURL(blob);
       setQrCode(qrCodeUrl);
     } catch (error) {
-      console.error("Error generating QR code:", error);
-      alert(error.message || "Error generating QR code.");
+      console.error("Error generating QR code:");
+      alert("Error generating QR code.");
     } finally {
       setLoading(false);
     }
