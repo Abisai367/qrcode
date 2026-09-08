@@ -23,7 +23,7 @@ export default function Home() {
 
     try {
       setLoading(true);
-      const response = await fetch("http://127.0.0.1:5000/generate", {
+      const response = await fetch("https://qrcode2-bv4t.onrender.com/generate", {
         method: "POST",
         body: formData,
       });
