@@ -4,7 +4,7 @@ from flask_cors import CORS
 import qrcode
 
 app = Flask(__name__)
-
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 @app.after_request
 def add_cors_headers(response):
@@ -14,11 +14,8 @@ def add_cors_headers(response):
     return response
 
 
-@app.route('/generate', methods=['POST', 'OPTIONS'])
+@app.route('/generate', methods=['POST'])
 def generate_qr():
-    if request.method == 'OPTIONS':
-        return make_response('', 204)
-
     url = request.form.get('url', '').strip()
     image_name = request.form.get('image_name', '').strip()
     qrcolor = request.form.get('qrcolor', '').strip() or 'black'
@@ -29,6 +26,9 @@ def generate_qr():
     qr = qrcode.QRCode(box_size=10, border=4)
     qr.add_data(url)
     qr.make(fit=True)
+
+    if qrcolor.startswith('#'):
+        qrcolor = qrcolor[1:]
     img = qr.make_image(fill_color=qrcolor, back_color='white').convert('RGB')
 
     buffer = BytesIO()
