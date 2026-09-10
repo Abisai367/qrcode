@@ -1,6 +1,6 @@
 ﻿from io import BytesIO
-
 from flask import Flask, request, send_file, make_response, jsonify
+from flask_cors import CORS
 import qrcode
 
 app = Flask(__name__)
