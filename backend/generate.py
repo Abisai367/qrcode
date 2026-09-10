@@ -29,6 +29,7 @@ def generate_qr():
 
     if qrcolor.startswith('#'):
         qrcolor = qrcolor[1:]
+        
     img = qr.make_image(fill_color=qrcolor, back_color='white').convert('RGB')
 
     buffer = BytesIO()
@@ -47,5 +48,5 @@ def generate_qr():
     )
 
 
-if __name__ == '__main__':
-    app.run(host='127.0.0.1', port=5000, debug=True)
+#if __name__ == '__main__':
+    #app.run(host='127.0.0.1', port=5000, debug=True)
