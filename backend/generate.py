@@ -17,20 +17,13 @@ def generate_qr():
         return jsonify({'error': 'URL is required'}), 400
 
     if not qrcolor:
-        fill_color_value = (0, 0, 0)
-    else:
-        if qrcolor.startswith('#'):
-            qrcolor = qrcolor[1:]
-        try:
-            fill_color_value = tuple(int(qrcolor[i:i+2], 16) for i in (0, 2, 4))
-        except Exception:
-            fill_color_value = (0, 0, 0)
+        qrcolor = 'black'
 
     try:
         qr = qrcode.QRCode(box_size=10, border=4)
         qr.add_data(url)
         qr.make(fit=True)
-        img = qr.make_image(fill_color=fill_color_value, back_color='white').convert('RGB')
+        img = qr.make_image(fill_color=qrcolor, back_color='white').convert('RGB')
 
         buffer = BytesIO()
         img.save(buffer, format='PNG')
