@@ -2,6 +2,7 @@ from io import BytesIO
 from flask import Flask, request, send_file, jsonify
 from flask_cors import CORS
 import qrcode
+from qrcode.image.pil import PilImage
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
@@ -17,13 +18,25 @@ def generate_qr():
         return jsonify({'error': 'URL is required'}), 400
 
     if not qrcolor:
-        qrcolor = 'black'
+        qrcolor = '#000000'
 
     try:
         qr = qrcode.QRCode(box_size=10, border=4)
         qr.add_data(url)
         qr.make(fit=True)
-        img = qr.make_image(fill_color=qrcolor, back_color='white').convert('RGB')
+        img = qr.make_image(image_factory=PilImage)
+        
+        img = img.convert('RGB')
+        
+        pixels = img.load()
+        for y in range(img.size[1]):
+            for x in range(img.size[0]):
+                if pixels[x, y] == (0, 0, 0):
+                    if qrcolor.startswith('#'):
+                        hex_val = qrcolor[1:]
+                        pixels[x, y] = tuple(int(hex_val[i:i+2], 16) for i in (0, 2, 4))
+                    else:
+                        pixels[x, y] = (0, 0, 0)
 
         buffer = BytesIO()
         img.save(buffer, format='PNG')
