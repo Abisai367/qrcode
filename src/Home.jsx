@@ -38,7 +38,7 @@ export default function Home() {
       const qrCodeUrl = URL.createObjectURL(blob);
       setQrCode(qrCodeUrl);
     } catch (error) {
-      console.error("Error generating QR code:");
+      console.error(error + "Error generating QR code:");
       alert("Error generating QR code.");
     } finally {
       setLoading(false);
