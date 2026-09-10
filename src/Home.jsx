@@ -20,6 +20,7 @@ export default function Home() {
     const formData = new FormData();
     formData.append("url", trimmedUrl);
     formData.append("image_name", preferredName.trim());
+    formData.append("qrcolor", color)
 
     try {
       setLoading(true);
