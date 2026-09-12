@@ -2,3 +2,4 @@
 qrcode
 gunicorn
 flask-cors
+PIL
