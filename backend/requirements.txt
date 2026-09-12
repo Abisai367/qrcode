@@ -1,5 +1,5 @@
-﻿Flask
+Flask
 qrcode
 gunicorn
 flask-cors
-PilImage
+Pillow
